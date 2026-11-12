@@ -3,6 +3,7 @@ layout: post
 title: "C++17在业务代码中最好用的十个特性"
 modified:
 categories: blog
+lang: zh
 excerpt:
 tags: [tech]
 image:

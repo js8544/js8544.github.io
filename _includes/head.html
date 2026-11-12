@@ -1,57 +1,31 @@
 <meta charset="utf-8">
-<title>{% if page.title %}{{ page.title }} &#8211; {% endif %}{{ site.title }}</title>
-{% if page.excerpt %}<meta name="description" content="{{ page.excerpt | strip_html }}">{% endif %}
-{% if page.tags %}<meta name="keywords" content="{{ page.tags | join: ', ' }}">{% endif %}
-{% if page.author %}
-  {% assign author = site.data.authors[page.author] %}{% else %}{% assign author = site.owner %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% capture page_title %}{% if page.title %}{{ page.title }} · {{ site.owner.name }}{% else %}{{ site.title }}{% endif %}{% endcapture %}
+{% capture page_desc %}{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 200 }}{% else %}{{ site.description }}{% endif %}{% endcapture %}
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ page_desc | escape }}">
+<meta name="author" content="{{ site.owner.name }}">
+<link rel="canonical" href="{{ page.url | replace: 'index.html', '' | prepend: site.url }}">
+<link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ site.url }}/feed.xml">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title }}{% endif %}">
+<meta property="og:description" content="{{ page_desc | escape }}">
+<meta property="og:url" content="{{ page.url | replace: 'index.html', '' | prepend: site.url }}">
+<meta property="og:image" content="{{ site.url }}/images/{{ site.logo }}">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon-144x144-precomposed.png">
+<script>
+(function(){var d=document.documentElement;try{var t=localStorage.getItem('theme');if(t)d.setAttribute('data-theme',t);
+var m=location.search.match(/[?&]style=([ab])/);if(m)localStorage.setItem('draft-style',m[1]);
+d.setAttribute('data-style',localStorage.getItem('draft-style')||'a');}catch(e){d.setAttribute('data-style','a');}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/main.css">
+{% if page.mathjax %}
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]'],['$$','$$']]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 {% endif %}
-
-{% include open-graph.html %}
-
-{% if site.owner.google.verify %}<!-- Webmaster Tools verfication -->
-<meta name="google-site-verification" content="{{ site.owner.google.verify }}">{% endif %}
-{% if site.owner.bing-verify %}<meta name="msvalidate.01" content="{{ site.owner.bing-verify }}">{% endif %}
-
-{% capture canonical %}{{ site.url }}{% if site.permalink contains '.html' %}{{ page.url }}{% else %}{{ page.url | remove:'index.html' | strip_slash }}{% endif %}{% endcapture %}
-<link rel="canonical" href="{{ canonical }}">
-<link href="{{ site.url }}/feed.xml" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
-
-<!-- https://t.co/dKP3o1e -->
-<meta name="HandheldFriendly" content="True">
-<meta name="MobileOptimized" content="320">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- For all browsers -->
-<link rel="stylesheet" href="{{ site.url }}/assets/css/main.css">
-<!-- Webfonts -->
-<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
-
-<meta http-equiv="cleartype" content="on">
-
-<!-- HTML5 Shiv and Media Query Support -->
-<!--[if lt IE 9]>
-  <script src="{{ site.url }}/assets/js/vendor/html5shiv.min.js"></script>
-  <script src="{{ site.url }}/assets/js/vendor/respond.min.js"></script>
-<![endif]-->
-
-<!-- Modernizr -->
-<script src="{{ site.url }}/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
-
-{% if site.mathjax == true %}
-<!-- MathJax -->
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-{% endif %}
-
-<!-- Icons -->
-<!-- 16x16 -->
-<link rel="shortcut icon" href="{{ site.url }}/favicon.ico">
-<!-- 32x32 -->
-<link rel="shortcut icon" href="{{ site.url }}/favicon.png">
-<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
-<link rel="apple-touch-icon-precomposed" href="{{ site.url }}/images/apple-touch-icon-precomposed.png">
-<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ site.url }}/images/apple-touch-icon-72x72-precomposed.png">
-<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ site.url }}/images/apple-touch-icon-114x114-precomposed.png">
-<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ site.url }}/images/apple-touch-icon-144x144-precomposed.png">

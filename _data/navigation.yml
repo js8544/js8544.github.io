@@ -1,28 +1,8 @@
-# Site navigation links
-
-- title: Home
-  url: /home/
-
-#- title: Articles
-#  url: /articles/
-
-- title: Blog
+- title: Writing
   url: /blog/
-
-#- title: Theme Setup
-#  url: /theme-setup/
-
 - title: Publications
   url: /publications/
-
-#- title: Miscellaneous
-#  url: /miscellaneous/
-
-#- title:
 - title: Resume
   url: /files/resume.pdf
-
 - title: 简历
   url: /files/resume_chinese.pdf
-#- title: Search
-#  url: /search/

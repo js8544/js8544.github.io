@@ -3,6 +3,7 @@ layout: post
 title: "JustMySocks+Qv2ray极简教程"
 modified:
 categories: blog
+lang: zh
 excerpt:
 tags: []
 image:
