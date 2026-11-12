@@ -1,21 +1,8 @@
 ---
 layout: default
-body_class: is-post
 ---
-<article class="wrap wrap--narrow post" lang="{{ page.lang | default: 'en' }}">
-  <header class="post-head">
-    <p class="meta"><a href="/blog/">Writing</a><span aria-hidden="true"> / </span><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time></p>
-    <h1>{% if page.headline %}{{ page.headline }}{% else %}{{ page.title }}{% endif %}</h1>
-    {% if page.excerpt %}{% assign ex = page.excerpt | strip_html | strip %}{% assign first = content | strip_html | strip | truncate: 60, '' %}{% unless ex contains first %}<p class="lede">{{ ex }}</p>{% endunless %}{% endif %}
-  </header>
-  <div class="prose">
-    {{ content }}
-  </div>
-  <footer class="post-foot">
-    {% if page.tags.size > 0 %}<p class="tags">{% for tag in page.tags %}<a href="/tags/#{{ tag }}">#{{ tag }}</a>{% endfor %}</p>{% endif %}
-    <nav class="post-nav" aria-label="More writing">
-      {% if page.previous %}<a class="post-nav__item" href="{{ page.previous.url }}"><span class="meta">Older</span><span>{{ page.previous.title }}</span></a>{% else %}<span></span>{% endif %}
-      {% if page.next %}<a class="post-nav__item post-nav__item--next" href="{{ page.next.url }}"><span class="meta">Newer</span><span>{{ page.next.title }}</span></a>{% endif %}
-    </nav>
-  </footer>
+<article>
+<h1>{% if page.headline %}{{ page.headline }}{% else %}{{ page.title }}{% endif %}</h1>
+<p><small><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time></small></p>
+{{ content }}
 </article>

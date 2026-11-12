@@ -3,9 +3,10 @@
 <head>
 {% include head.html %}
 </head>
-<body class="{{ page.body_class | default: layout.body_class }}">
-{% include header.html %}
-<main id="main">
+<body>
+{% unless page.url == '/' %}<nav><a href="/">Jin Shang</a> · <a href="/blog/">Writing</a> · <a href="/publications/">Publications</a></nav>
+{% endunless %}
+<main>
 {{ content }}
 </main>
 {% include footer.html %}

@@ -1,10 +1,5 @@
 ---
 layout: default
-body_class: is-page
 ---
-<div class="wrap wrap--narrow">
-  {% if page.title %}<header class="page-head"><h1>{{ page.title }}</h1>{% if page.lede %}<p class="lede">{{ page.lede }}</p>{% endif %}</header>{% endif %}
-  <div class="prose">
-    {{ content }}
-  </div>
-</div>
+{% if page.title %}<h1>{{ page.title }}</h1>{% endif %}
+{{ content }}

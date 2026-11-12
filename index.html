@@ -1,62 +1,17 @@
 ---
 layout: default
-body_class: is-home
-excerpt: "Jin Shang (尚晋) builds Offloop and writes about AI products, agents, and how teams work with them."
+excerpt: "Jin Shang (尚晋) builds Offloop and writes about AI products and agents."
 ---
-<div class="wrap">
-  <section class="hero">
-    <div class="hero__text">
-      <p class="meta">Jin Shang · 尚晋</p>
-      <h1>I build <span class="hl">Offloop</span>, a workspace where agent employees and people work together.</h1>
-      <p class="hero__sub">I write here about what I learn along the way: how to design AI products, what makes a personal agent good, and how a small team runs with agents on staff. Before this I worked on recommender systems at WeChat, studied computer science at Carnegie Mellon, and did math research at NYU Abu Dhabi.</p>
-      <p class="hero__links">
-        <a href="mailto:{{ site.owner.email }}">Email</a>
-        <a href="https://github.com/{{ site.owner.github }}">GitHub</a>
-        <a href="https://linkedin.com/in/{{ site.owner.linkedin }}">LinkedIn</a>
-        <a href="/files/resume.pdf">Resume</a>
-        <a href="/files/resume_chinese.pdf">简历</a>
-      </p>
-    </div>
-    <img class="hero__photo" src="/images/weblogo.png" width="160" height="160" alt="Portrait of Jin Shang">
-  </section>
+<h1>Jin Shang 尚晋</h1>
 
-  <section class="band">
-    <h2 class="band__label">Writing</h2>
-    <div class="band__body">
-      <ol class="entries">
-        {% assign shown = 0 %}
-        {% for post in site.categories.blog %}{% unless post.tags contains 'leetcode' %}{% if shown < 4 %}{% assign shown = shown | plus: 1 %}
-        <li class="entry">
-          <a href="{{ post.url }}">
-            <time class="meta" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %Y" }}</time>
-            <span class="entry__title"{% if post.lang %} lang="{{ post.lang }}"{% endif %}>{{ post.title }}</span>
-            {% assign ex = post.excerpt | strip_html | strip %}{% if post.lang != 'zh' and ex != '' %}<span class="entry__excerpt">{{ ex | truncate: 180 }}</span>{% endif %}
-          </a>
-        </li>
-        {% endif %}{% endunless %}{% endfor %}
-      </ol>
-      <p class="more"><a href="/blog/">All writing →</a></p>
-    </div>
-  </section>
+<p>I am building Offloop, a workspace where agent employees and people work together. Before this I worked on recommender systems at WeChat, studied computer science at Carnegie Mellon, and did math research at NYU Abu Dhabi.</p>
 
-  <section class="band">
-    <h2 class="band__label">Path</h2>
-    <div class="band__body">
-      <dl class="path">
-        <div><dt>Now</dt><dd><strong>Offloop</strong>, co-founder. Building agent employees that hold a role, keep work moving, and come to a person when a judgment is needed.</dd></div>
-        <div><dt>Before</dt><dd><strong>WeChat, Tencent</strong>, backend engineer on the AI platform team. Recommender systems for Channels Live, subscriptions, security, and WeCom.</dd></div>
-        <div><dt>2020</dt><dd><strong>Google Cloud</strong>, software engineering intern. Designed and built batch serving for the AI Platform Feature Store.</dd></div>
-        <div><dt>2021</dt><dd><strong>Carnegie Mellon University</strong>, M.S. in Computer Science.</dd></div>
-        <div><dt>2019</dt><dd><strong>NYU Abu Dhabi</strong>, B.S. in Mathematics and Computer Science. Research on modular Lie superalgebras with Sofiane Bouarroudj and Dimitry Leites.</dd></div>
-      </dl>
-    </div>
-  </section>
+<p><a href="mailto:{{ site.owner.email }}">Email</a> · <a href="https://github.com/{{ site.owner.github }}">GitHub</a> · <a href="https://linkedin.com/in/{{ site.owner.linkedin }}">LinkedIn</a></p>
 
-  <section class="band">
-    <h2 class="band__label">Papers</h2>
-    <div class="band__body">
-      <p>Four papers from my math and networking years, three on exceptional modular Lie superalgebras. They put my <a href="/erdos/">Erdős number at 5</a>.</p>
-      <p class="more"><a href="/publications/">Publications →</a></p>
-    </div>
-  </section>
-</div>
+<h2>Writing</h2>
+<ul>
+{% assign shown = 0 %}{% for post in site.categories.blog %}{% unless post.tags contains 'leetcode' %}{% if shown < 5 %}{% assign shown = shown | plus: 1 %}
+<li><a href="{{ post.url }}"{% if post.lang %} lang="{{ post.lang }}"{% endif %}>{{ post.title }}</a> <small>({{ post.date | date: "%Y" }})</small></li>
+{% endif %}{% endunless %}{% endfor %}
+</ul>
+<p><a href="/blog/">All writing</a> · <a href="/publications/">Publications</a></p>
