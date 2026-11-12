@@ -16,7 +16,7 @@ I reply with one sentence: "I'll interview both. Send me the résumés." A few m
 
 ![Loopie's morning brief on WeChat: two new candidates waiting for a decision, with names and details blurred.](/images/blog/how-we-built-an-ai-native-organization-at-offloop/01.webp)
 
-<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">The morning brief, in Chinese, with candidate details blurred: two new candidates, a screening score and a recommended next round for each, and a reminder about one left over from the day before.</p>
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">The morning brief, translated from Chinese, with candidate details blurred: two new candidates, a screening score and a recommended next round for each, and a reminder about one left over from the day before.</p>
 
 From sourcing and screening to background checks and scheduling, I made exactly one decision in this whole process: interview or not.
 
@@ -26,7 +26,7 @@ Offloop is the product we are building: a workspace where agent employees and pe
 
 ![The Offloop workspace home, with channels on the left, messages in the middle, and workspace agents on the right.](/images/blog/how-we-built-an-ai-native-organization-at-offloop/02.webp)
 
-<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">The Offloop workspace home: channels organized by function on the left, the messages that need my attention in the middle, and the agent employees on duty on the right.</p>
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">The Offloop workspace home: channels organized by function on the left, the messages that need my attention in the middle, and the agent employees on duty on the right. Message text translated from Chinese.</p>
 
 All of this kept me thinking about one question: what should an AI-native organization actually look like? This essay is my answer. It starts from a very old question: why do organizations divide labor at all?
 
@@ -171,7 +171,7 @@ Engineering works the same way. Every bug has its own thread in a channel. The b
 
 ![The auto-bug-fix channel in the Offloop workspace, with one thread per bug and the agent's reports in the main pane.](/images/blog/how-we-built-an-ai-native-organization-at-offloop/10.webp)
 
-<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">The auto-bug-fix channel in the Offloop workspace: one thread per bug on the left, the agent's execution reports and teammates' follow-ups on the right.</p>
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">The auto-bug-fix channel in the Offloop workspace: one thread per bug on the left, the agent's execution reports and teammates' follow-ups on the right. Message text translated from Chinese.</p>
 
 ## Closing
 
