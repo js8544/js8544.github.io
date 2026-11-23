@@ -1,14 +1,24 @@
 ---
 layout: page
 title: Publications
-excerpt: "So Simple is a responsive Jekyll theme for your words and images."
+excerpt: "Papers by Jin Shang."
 modified: 2014-08-08T19:44:38.564948-04:00
 ---
+
+- **[When Should Models Change Their Minds? Contextual Belief Management in Large Language Models](https://aclanthology.org/2026.emnlp-main.336/)**<br/>
+  Haoming Xu, Weihong Xu, Zongrui Li, Mengru Wang, Yunzhi Yao, Chiyu Wu, Jin Shang, Yu Gong, Shumin Deng
+  <br/>
+  _EMNLP 2026_
+
+- **[TokenPilot: Cache-Efficient Context Management for LLM Agents](https://arxiv.org/abs/2606.17016)**<br/>
+  Buqiang Xu, Zirui Xue, Dianmou Chen, Chenyang Fu, Chiyu Wu, Caiying Huang, Chen Jiang, Jizhan Fang, Xinle Deng, Yijun Chen, Yunzhi Yao, Xuehai Wang, Jin Shang, Gong Yu, Ningyu Zhang
+  <br/>
+  _Findings of EMNLP 2026_
 
 - **[Duflo-Serganova homology for exceptional modular Lie superalgebras with Cartan matrix](https://arxiv.org/abs/2008.12033)**<br/>
   Andrey Krutov, Dimitry Leites, Jin Shang
   <br/>
-  _arxiv:1904.09579_
+  _arXiv:2008.12033_
 
 - **[Computer-aided study of double extensions of restricted Lie superalgebras preserving the non-degenerate closed 2-forms in characteristic 2](https://arxiv.org/abs/1904.09579)**<br/>
   Sofiane Bouarroudj, Dimitry Leites, Jin Shang. Experimental Mathematics, 2019 - Taylor & Francis
