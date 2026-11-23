@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "C++17在业务代码中最好用的十个特性"
+title_translated: "The Ten Most Useful C++17 Features in Business Code"
 modified:
 categories: blog
 lang: zh
@@ -262,3 +263,257 @@ std::variant<ReturnType, Err> func(const string& in) {
 
 ## 总结
 以上是笔者在生产环境中最常用的c++17特性，除了本文描述的十个特性外，c++17还添加了如[lambda值捕获*this](https://en.cppreference.com/w/cpp/language/lambda#Lambda_capture), [钳夹函数std::clamp()](https://en.cppreference.com/w/cpp/algorithm/clamp), [强制检查返回值[[nodiscard]]](https://en.cppreference.com/w/cpp/language/attributes/nodiscard)等非常易用的特性，本文篇幅有限不做赘述，欢迎有兴趣的读者自行探索。
+
+<!--translation-->
+
+Since the start of the modern C++ era, the language standard has settled into a three-year release cycle. C++11 marked the beginning of modern C++. C++14 filled gaps in C++11 without adding many new features. C++17, the first major release after C++11, is where modern C++ started to mature. WXG upgraded its compiler to gcc 7.5 some time ago, and my team has moved all of its code to C++17. After more than a year of using it, these are the ten C++17 features I find most useful in business code.
+
+Note 1: This post only covers features supported by WXG's gcc 7.5. Features it does not support yet, such as [Execution Policy](https://en.cppreference.com/w/cpp/algorithm/execution_policy_tag_t) and [File System](https://en.cppreference.com/w/cpp/filesystem), are left out.
+
+Note 2: This post only covers features used in business logic. Features aimed at metaprogramming and scientific computing, such as [Fold Expression](https://en.cppreference.com/w/cpp/language/fold) and [Mathematical Special Functions](https://en.cppreference.com/w/cpp/numeric/special_functions), are left out.
+
+I group the features into three kinds: syntactic sugar, performance, and the type system.
+
+## Syntactic sugar
+"Syntactic sugar" here is not meant in the strict language-level sense. It also includes functions and library additions that make code shorter and easier to read.
+
+### [Structured bindings](https://en.cppreference.com/w/cpp/language/structured_binding)
+The most convenient piece of sugar in C++17 is structured bindings: syntax that binds the members of an array, tuple, or struct to a set of variables*. The most common use is iterating over a map/unordered_map without declaring an intermediate variable:
+```cpp
+// pre c++17
+for(const auto& kv: map){
+  const auto& key = kv.first;
+  const auto& value = kv.second;
+  // ...
+}
+
+// c++17
+for(const auto& [key, value]: map){
+  // ...
+}
+```
+
+*: Strictly speaking, the results of a structured binding are not variables. The standard calls them names, or aliases, which means a lambda is not allowed to capture them. gcc does not follow the standard here, so the code below compiles with gcc and fails with clang:
+``` cpp
+for(const auto& [key, value]: map){
+    [&key, &value]{
+        std::cout << key << ": " << value << std::endl;
+    }();
+}
+```
+With clang, you can make it compile by explicitly introducing a reference variable in the lambda capture:
+```cpp
+for(const auto& [key, value]: map){
+    [&key = key, &value = value]{
+        std::cout << key << ": " << value << std::endl;
+    }();
+}
+```
+This restriction was removed in C++20, so under the C++20 standard both gcc and clang can capture structured bindings.
+
+### [Deduction guides for std::tuple](https://en.cppreference.com/w/cpp/utility/tuple/deduction_guides)
+Before C++17, constructing a `std::pair/std::tuple` meant spelling out the types or calling `std::make_pair/std::make_tuple`. C++17 added deduction guides for `std::pair/std::tuple`, so the types no longer have to be written explicitly.
+```cpp
+// pre c++17
+std::pair<int, std::string> p1{3.14, "pi"s};
+auto p1 = std::make_pair(3.14, "pi"s);
+
+// c++17
+std::pair p3{3.14, "pi"s};
+```
+
+### [if constexpr](https://en.cppreference.com/w/cpp/language/if)
+`if constexpr` is an if statement evaluated at compile time. Before C++17, compile-time conditions were usually written with complicated [SFINAE](https://en.cppreference.com/w/cpp/language/sfinae) tricks or template overloads, and when that felt like too much trouble people moved the check to a runtime `if` and paid for it in performance. `if constexpr` eases this a great deal. Say I want one function that converts different input types to a string. Before C++17 that takes three functions. In C++17 it takes one.
+```cpp
+// pre c++17
+template <typename T>
+std::string convert(T input){
+    return std::to_string(input);
+}
+
+// special handling for const char* and string
+std::string convert(const char* input){
+    return input;
+}
+std::string convert(std::string input){
+    return input;
+}
+```
+
+```cpp
+// c++17
+template <typename T>
+std::string convert(T input) {
+    if constexpr (std::is_same_v<T, const char*> ||
+                  std::is_same_v<T, std::string>) {
+        return input;
+    } else {
+        return std::to_string(input);
+    }
+}
+```
+
+### [if with initializer](https://en.cppreference.com/w/cpp/language/if)
+C++17 lets you put an init statement before the condition of an `if`. A variable used only inside the `if` can be declared there, which makes the code easier to read. For types that involve concurrency or RAII, such as locks and iterators, it also makes correctness easier to guarantee.
+```cpp
+// c++ 17
+std::map<int, std::string> m;
+std::mutex mx;
+extern bool shared_flag; // guarded by mx
+
+int demo()
+{
+    if (auto it = m.find(10); it != m.end()) { return it->second.size(); }
+    if (char buf[10]; std::fgets(buf, 10, stdin)) { m[0] += buf; }
+    if (std::lock_guard lock(mx); shared_flag) { unsafe_ping(); shared_flag = false; }
+    if (int s; int count = ReadBytesWithSignal(&s)) { publish(count); raise(s); }
+    if (const auto keywords = {"if", "for", "while"};
+        std::ranges::any_of(keywords, [&tok](const char* kw) { return tok == kw; }))
+    {
+        std::cerr << "Token must not be a keyword\n";
+    }
+}
+```
+
+## Performance
+### [std::shared_mutex](https://en.cppreference.com/w/cpp/thread/shared_mutex)
+`shared_mutex` is C++'s native reader-writer lock. It has a shared mode and an exclusive mode, and suits read-heavy concurrent workloads, where readers share the lock and throughput goes up. Before C++17 you had to build a reader-writer lock yourself from an exclusive lock and a condition variable, or use the slower `std::shared_timed_mutex` added in C++14. Here is a thread-safe counter built on `shared_mutex`:
+
+```cpp
+// c++17
+class ThreadSafeCounter {
+ public:
+  ThreadSafeCounter() = default;
+
+  // Multiple threads/readers can read the counter's value at the same time.
+  unsigned int get() const {
+    std::shared_lock lock(mutex_);
+    return value_;
+  }
+
+  // Only one thread/writer can increment/write the counter's value.
+  unsigned int increment() {
+    std::unique_lock lock(mutex_);
+    return ++value_;
+  }
+
+  // Only one thread/writer can reset/write the counter's value.
+  void reset() {
+    std::unique_lock lock(mutex_);
+    value_ = 0;
+  }
+
+ private:
+  mutable std::shared_mutex mutex_;
+  unsigned int value_ = 0;
+};
+```
+
+### [std::string_view](https://en.cppreference.com/w/cpp/string/basic_string_view)
+As the name says, `std::string_view` is a "view" of a string. It holds two members: a pointer to the characters and a length. It offers every read-only interface of `std::string`. A `std::string_view` does not own the string, and it works with both `std::string` and `const char*`.
+
+Before C++17, read-only strings were usually passed as `const std::string&`. `std::string_view` has two performance advantages over that:
+
+1. It accepts both string types, which cuts conversions and allocations. If the argument is a string literal (`const char*`), `const std::string&` needs an allocation to copy the string onto the heap. `std::string_view` avoids it.
+2. For substrings, `std::string::substr` also copies and allocates, while `std::string_view::substr` does not. When parsing large files the difference is very noticeable.
+
+```cpp
+// from https://stackoverflow.com/a/40129046
+// author: Pavel Davydov
+
+// remove_prefix on string_view is 15x faster than on const std::string&
+string remove_prefix(const string &str) {
+  return str.substr(3);
+}
+string_view remove_prefix(string_view str) {
+  str.remove_prefix(3);
+  return str;
+}
+
+static void BM_remove_prefix_string(benchmark::State& state) {
+  std::string example{"asfaghdfgsghasfasg3423rfgasdg"};
+  while (state.KeepRunning()) {
+    auto res = remove_prefix(example);
+    // auto res = remove_prefix(string_view(example)); for string_view
+    if (res != "aghdfgsghasfasg3423rfgasdg") {
+      throw std::runtime_error("bad op");
+    }
+  }
+}
+```
+### [std::map/unordered_map try_emplace](https://en.cppreference.com/w/cpp/container/map/try_emplace)
+To insert into a `std::map/unordered_map` we usually call `emplace`, which inserts the element if its key is absent and does nothing otherwise. But when the key already exists, `emplace` still constructs the element, finds that no insertion is needed, and destroys it at once: one wasted construction and one wasted destruction. C++17 added `try_emplace`, which avoids this. `try_emplace` also takes the key and the value as separate arguments, so in-place construction reads more simply than with `emplace`.
+
+```cpp
+std::map<std::string, std::string> m;
+// in-place construction with emplace needs std::piecewise_construct, because it inserts a std::pair<key, value> directly
+m.emplace(std::piecewise_construct,
+           std::forward_as_tuple("c"),
+           std::forward_as_tuple(10, 'c'));
+
+// try_emplace constructs in place directly, because key and value are separate arguments
+m.try_emplace("c", 10, 'c')
+```
+C++17 also gave `std::map/unordered_map` an `insert_or_assign` function, which makes insert-or-update easier to write.
+
+## Type system
+C++17 rounded out the C++ type system, finally adding the long-awaited type-erased container ([Type Erasure](https://en.wikipedia.org/wiki/Type_erasure)) and algebraic data types ([Algebraic Data Type](https://en.wikipedia.org/wiki/Algebraic_data_type)).
+
+### [std::any](https://en.cppreference.com/w/cpp/utility/any)
+`std::any` is a container that can hold a value of any copyable type. C code usually does this with `void*`. Compared with `void*`, `std::any` has two advantages:
+
+1. `std::any` is safer. Once a `T` is converted to `void*`, its type information is gone, and when converting back the program cannot tell whether the `void*` really points to a `T`, which invites bugs. `std::any` stores the type information, and `std::any_cast` is a safe conversion.
+2. `std::any` manages the object's lifetime. When the `std::any` is destroyed, the stored object is destroyed with it. With `void*` you manage the memory by hand.
+
+`std::any` should rarely be a programmer's first choice. When the types are known, `std::optional`, `std::variant`, and inheritance are all more efficient and more reasonable. Use `std::any` only when the type is truly unknown, for example when parsing dynamically typed text or passing information through a middle layer of business logic.
+
+### [std::optional](https://en.cppreference.com/w/cpp/utility/optional)
+`std::optional<T>` represents a `T` that may or may not be there. It corresponds to `Maybe` in Haskell and `option` in Rust/OCaml, and is in fact a [Sum Type](https://en.wikipedia.org/wiki/Tagged_union). It is commonly used as the return type of a function that can fail, such as a factory function. Before C++17, such functions usually returned `T*`: `nullptr` meant failure, and otherwise the pointer referred to the real return value. That style blurs ownership, because the caller cannot tell whether it should take over the memory behind the `T*`. And because the `T*` may be null, forgetting to check it risks a segfault.
+
+```cpp
+// pre c++17
+ReturnType* func(const std::string& in) {
+    ReturnType* ret = new ReturnType;
+    if (in.size() == 0)
+        return nullptr;
+    // ...
+    return ret;
+}
+
+// c++17: safer and clearer
+std::optional<ReturnType> func(const string& in) {
+    ReturnType ret;
+    if (in.size() == 0)
+        return nullopt;
+    // ...
+    return ret;
+}
+```
+
+### [std::variant](https://en.cppreference.com/w/cpp/utility/variant)
+`std::variant<T, U, ...>` is a container that holds a value of exactly one of the listed types. It is a general sum type, corresponding to Rust's `enum`. It is a type-safe `union`, which is why it is also called a `tagged union`. It has two advantages over `union`:
+
+1. It can hold complex types. A union can only directly hold basic POD types, and for complex types such as `std::vector` and `std::string` the user has to manage memory by hand.
+2. It is type safe. A variant stores which type it currently holds, so conversions are safe. Before C++17 the same thing was usually done with a `union` plus an `enum`.
+
+With `std::variant<T, Err>` you can build something like Rust's `std::result`: return the result when the function succeeds and the error when it fails. The example above becomes:
+
+```cpp
+std::variant<ReturnType, Err> func(const string& in) {
+    ReturnType ret;
+    if (in.size() == 0)
+        return Err{"input is empty"};
+    // ...
+    return {ret};
+}
+```
+
+Note that C++17 only provides a library-level variant, with no matching [Pattern Matching](https://en.wikipedia.org/wiki/Pattern_matching) mechanism, and the closest thing, `std::visit`, lacks compiler optimization support. So `std::variant` is not pleasant to use in C++17, and it is a long way from the sum types of Rust and functional languages. Many proposals built around `std::variant` have been submitted to the C++ committee, though, including pattern matching and `std::expected`.
+
+To sum up, the three new types give C++ a more modern and safer type system. Their use cases are:
+ - `std::any` for places that used `void*` as a general-purpose type.
+ - `std::optional` for places that used `nullptr` to signal failure.
+ - `std::variant` for places that used `union`.
+
+## Summary
+These are the C++17 features I use most in production. Beyond these ten, C++17 added other very handy features, such as [lambda capture of *this by value](https://en.cppreference.com/w/cpp/language/lambda#Lambda_capture), [std::clamp()](https://en.cppreference.com/w/cpp/algorithm/clamp), and [[[nodiscard]] to force checking of return values](https://en.cppreference.com/w/cpp/language/attributes/nodiscard). There is not room to cover them here, and interested readers are welcome to explore them.
