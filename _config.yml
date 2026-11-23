@@ -1,78 +1,28 @@
-# Site wide configuration
-
 title: Jin Shang（尚晋）
-locale: en_US
-description: Jin Shang（尚晋）'s personal website
-logo: weblogo.png
-search: true
+description: Jin Shang (尚晋) builds Offloop and writes about AI products and agents.
 url: https://jinshang.ai
-
-# Jekyll configuration
 
 permalink: /:categories/:title/
 markdown: kramdown
 highlighter: rouge
 sass:
-  sass_dir: _sass
   style: compressed
-gems:
+plugins:
   - jekyll-sitemap
 
 kramdown:
   auto_ids: true
   footnote_nr: 1
   entity_output: as_char
-  toc_levels: 1..2
-  use_coderay: false
 
-mathjax: true
-
-include: [".htaccess"]
 exclude:
-  [
-    "lib",
-    "config.rb",
-    "Capfile",
-    "config",
-    "log",
-    "Rakefile",
-    "Rakefile.rb",
-    "tmp",
-    "less",
-    "*.sublime-project",
-    "*.sublime-workspace",
-    "test",
-    "spec",
-    "Gruntfile.js",
-    "package.json",
-    "node_modules",
-    "Gemfile",
-    "Gemfile.lock",
-    "LICENSE",
-    "README.md",
-    "vendor",
-  ]
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
 
-# Site owner
 owner:
   name: Jin Shang
-  avatar: weblogo.png
   email: shangjin1997@gmail.com
-  disqus-shortname:
-  twitter: #username
-  facebook: #username
   github: js8544
-  stackexchange: #http://stackoverflow.com/users/123456/username
   linkedin: jinshang1997
-  instagram: js8544
-  flickr: #username
-  tumblr: #username
-  pinterest: #username
-  weibo: #userid
-  google:
-    plus:
-    analytics:
-    verify:
-    ad-client:
-    ad-slot:
-  bing-verify:

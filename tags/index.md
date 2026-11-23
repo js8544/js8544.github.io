@@ -1,26 +1,14 @@
 ---
 layout: page
-title: Tag Index
-excerpt: "An archive of posts sorted by tag."
+title: Tags
 search_omit: true
 ---
-
-{% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
-{% assign tags_list = site_tags | split:',' | sort %}
-
-<ul class="tag-box inline">
-  {% for item in (0..site.tags.size) %}{% unless forloop.last %}
-    {% capture this_word %}{{ tags_list[item] | strip_newlines }}{% endcapture %}
-    <li><a href="#{{ this_word }}">{{ this_word }} <span>{{ site.tags[this_word].size }}</span></a></li>
-  {% endunless %}{% endfor %}
-</ul>
-
-{% for item in (0..site.tags.size) %}{% unless forloop.last %}
-  {% capture this_word %}{{ tags_list[item] | strip_newlines }}{% endcapture %}
-  <h2 id="{{ this_word }}">{{ this_word }}</h2>
-  <ul class="post-list">
-  {% for post in site.tags[this_word] %}{% if post.title != null %}
-    <li><a href="{{ site.url }}{{ post.url }}">{{ post.title }}<span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a></li>
-  {% endif %}{% endfor %}
-  </ul>
+{% assign tags = site.tags | sort %}
+<p>{% for tag in tags %}<a href="#{{ tag[0] | slugify }}">{{ tag[0] }}</a> ({{ tag[1] | where_exp: 'p', 'p.hidden != true' | size }}){% unless forloop.last %} · {% endunless %}{% endfor %}</p>
+{% for tag in tags %}
+<h2 id="{{ tag[0] | slugify }}">{{ tag[0] }}</h2>
+<ul>
+{% for post in tag[1] %}{% unless post.hidden %}<li><a href="{{ post.url }}"{% if post.lang %} lang="{{ post.lang }}"{% endif %}>{{ post.title }}</a></li>
 {% endunless %}{% endfor %}
+</ul>
+{% endfor %}

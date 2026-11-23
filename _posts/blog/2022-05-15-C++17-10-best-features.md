@@ -11,7 +11,6 @@ image:
 date: 2022-05-15
 
 ---
-# C++17在业务代码中最好用的十个特性
 自从步入现代C++时代开始，C++语言标准形成了三年一个版本的惯例：C++11标志着现代C++的开端，C++14在11的基础上查缺补漏，并未加入许多新特性，而C++17作为C++11后的第一个大版本，标志着现代C++逐渐走向成熟。WXG编译器升级到gcc7.5已有一段时间，笔者所在项目组也已经将全部代码升级到C++17。在使用了c++17一年多之后，笔者总结了C++17在业务代码中最好用的十个特性。
 
 注1：本文只包含wxg的gcc7.5支持的特性，[Execution Policy](https://en.cppreference.com/w/cpp/algorithm/execution_policy_tag_t), [File System](https://en.cppreference.com/w/cpp/filesystem)等暂不支持的特性不包含在内。

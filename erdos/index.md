@@ -1,6 +1,7 @@
 ---
 layout: page
-excerpt: "So Simple is a responsive Jekyll theme for your words and images."
+title: Erdős number
+excerpt: "Jin Shang's Erdős number is 5."
 modified: 2014-08-08T19:44:38.564948-04:00
 ---
 I believe my Erdös number is 5.

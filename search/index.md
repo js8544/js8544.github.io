@@ -1,31 +1,40 @@
 ---
 layout: page
-title: "Search"
-date: 
-modified:
-excerpt:
-image:
-  feature:
+title: Search
 search_omit: true
 sitemap: false
 ---
-  
-<!-- Search form -->
-<form method="get" action="{{ site.url }}/search/" data-search-form class="simple-search">
-  <label for="q">Search {{ site.title }} for:</label>
-  <input type="search" name="q" id="q" placeholder="What are you looking for?" data-search-input id="goog-wm-qt" autofocus />
-  <input type="submit" value="Search" id="goog-wm-sb" />
+<form action="/search/" method="get" role="search">
+<label for="q">Search titles and summaries:</label>
+<input type="search" id="q" name="q" autofocus>
+<button type="submit">Search</button>
 </form>
-
-<!-- Search results placeholder -->
-<h6 data-search-found>
-  <span data-search-found-count></span> result(s) found for &ldquo;<span data-search-found-term></span>&rdquo;.
-</h6>
-<ul class="post-list" data-search-results></ul>
-
-<!-- Search result template -->
-<script type="text/x-template" id="search-result">
-  <li><article>
-    <a href="##Url##">##Title## <span class="excerpt">##Excerpt##</span></a>
-  </article></li>
+<p id="search-status" aria-live="polite"></p>
+<ul id="search-results"></ul>
+<noscript><p>Search needs JavaScript. The full list is on the <a href="/blog/">Writing</a> page.</p></noscript>
+<script>
+(function () {
+  var q = (new URLSearchParams(location.search).get('q') || '').trim();
+  var input = document.getElementById('q');
+  var status = document.getElementById('search-status');
+  var list = document.getElementById('search-results');
+  input.value = q;
+  if (!q) return;
+  var words = q.toLowerCase().split(/\s+/);
+  fetch('/search.json').then(function (r) { return r.json(); }).then(function (items) {
+    var hits = items.filter(function (it) {
+      var text = (it.title + ' ' + it.excerpt).toLowerCase();
+      return words.every(function (w) { return text.indexOf(w) !== -1; });
+    });
+    status.textContent = hits.length + (hits.length === 1 ? ' result' : ' results') + ' for "' + q + '".';
+    hits.forEach(function (it) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = it.link;
+      a.textContent = it.title;
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  }).catch(function () { status.textContent = 'Search is unavailable right now.'; });
+})();
 </script>
