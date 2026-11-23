@@ -1,6 +1,5 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light dark">
 {% capture page_desc %}{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 200 }}{% else %}{{ site.description }}{% endif %}{% endcapture %}
 <title>{% if page.title %}{{ page.title }} - {{ site.owner.name }}{% else %}{{ site.title }}{% endif %}</title>
 <meta name="description" content="{{ page_desc | escape }}">
@@ -13,6 +12,10 @@
 <meta property="og:description" content="{{ page_desc | escape }}">
 <meta property="og:url" content="{{ page.url | replace: 'index.html', '' | prepend: site.url }}">
 <link rel="icon" href="/favicon.png" type="image/png">
+<script>
+(function(){var d=document.documentElement;try{var t=localStorage.getItem('theme');if(t)d.setAttribute('data-theme',t);
+var l=localStorage.getItem('ui-lang')||((navigator.language||'').toLowerCase().indexOf('zh')===0?'zh':'en');d.setAttribute('data-ui',l);}catch(e){}})();
+</script>
 <link rel="stylesheet" href="/assets/css/main.css">
 {% if page.mathjax %}
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]'],['$$','$$']]}};</script>

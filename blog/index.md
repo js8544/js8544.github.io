@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Writing
+title_zh: 文章
 excerpt: "Essays and notes by Jin Shang."
 ---
 <ul>
@@ -10,7 +11,7 @@ excerpt: "Essays and notes by Jin Shang."
 </ul>
 
 <details id="leetcode">
-<summary>LeetCode notes (2019)</summary>
+<summary>{% include t.html en="LeetCode notes (2019)" zh="LeetCode 笔记（2019）" %}</summary>
 <ul>
 {% for post in site.categories.blog reversed %}{% if post.tags contains 'leetcode' %}<li><a href="{{ post.url }}">{{ post.title }}</a></li>
 {% endif %}{% endfor %}

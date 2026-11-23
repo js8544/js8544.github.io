@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Publications
+title_zh: 论文
 excerpt: "Papers by Jin Shang."
 modified: 2014-08-08T19:44:38.564948-04:00
 ---

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Tags
+title_zh: 标签
 search_omit: true
 ---
 {% assign tags = site.tags | sort %}

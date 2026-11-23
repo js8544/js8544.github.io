@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Erdős number
+title_zh: 埃尔德什数
 excerpt: "Jin Shang's Erdős number is 5."
 modified: 2014-08-08T19:44:38.564948-04:00
 ---

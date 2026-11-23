@@ -4,11 +4,39 @@
 {% include head.html %}
 </head>
 <body>
-{% unless page.url == '/' %}<nav><a href="/">Jin Shang</a> · <a href="/blog/">Writing</a> · <a href="/publications/">Publications</a></nav>
-{% endunless %}
+<header>
+<nav>{% unless page.url == '/' %}<a href="/">Jin Shang</a> · <a href="/blog/">{% include t.html en="Writing" zh="文章" %}</a> · <a href="/publications/">{% include t.html en="Publications" zh="论文" %}</a>{% endunless %}</nav>
+<span class="switches" hidden><button type="button" id="lang-switch"></button> · <button type="button" id="theme-switch"></button></span>
+</header>
 <main>
 {{ content }}
 </main>
 {% include footer.html %}
+<script>
+(function () {
+  var d = document.documentElement;
+  var langBtn = document.getElementById('lang-switch');
+  var themeBtn = document.getElementById('theme-switch');
+  function theme() {
+    return d.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  function label() {
+    var zh = d.getAttribute('data-ui') === 'zh';
+    langBtn.textContent = zh ? 'English' : '中文';
+    themeBtn.textContent = theme() === 'dark' ? (zh ? '浅色' : 'Light') : (zh ? '深色' : 'Dark');
+  }
+  function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  langBtn.onclick = function () {
+    var next = d.getAttribute('data-ui') === 'zh' ? 'en' : 'zh';
+    d.setAttribute('data-ui', next); save('ui-lang', next); label();
+  };
+  themeBtn.onclick = function () {
+    var next = theme() === 'dark' ? 'light' : 'dark';
+    d.setAttribute('data-theme', next); save('theme', next); label();
+  };
+  label();
+  document.querySelector('.switches').hidden = false;
+})();
+</script>
 </body>
 </html>
