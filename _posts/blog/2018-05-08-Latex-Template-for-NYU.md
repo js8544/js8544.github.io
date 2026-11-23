@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "A Latex Presentation/Poster Template for NYU"
+title_translated: "NYU 的 LaTeX 幻灯片和海报模板"
 modified:
 categories: blog
 excerpt:
@@ -31,3 +32,25 @@ They are available at my [Github Repo](https://github.com/js8544/nyu-latex-templ
 ## Acknowledgment
 The poster template is based on the [Jacobs Landscape Poster](https://www.overleaf.com/latex/templates/landscape-beamer-poster-template/vjpmsxxdvtqk) and the presentation template is based on the [Unofficial NEO UEA Template](https://www.overleaf.com/latex/templates/unofficial-neo-uea-template/qvhndvzjqmqj).
 
+<!--translation-->
+
+前段时间我在纽约大学阿布扎比分校写本科[毕业论文](https://arxiv.org/abs/1904.09579)，做幻灯片和海报时想按 NYU 的[视觉规范](https://www.nyu.edu/employees/resources-and-services/media-and-communications/styleguide.html)来。用上 NYU 的配色比我想的容易，所以干脆做成模板，给 NYU 的同学都能用。模板里带了 NYU、NYU 阿布扎比和 NYU 上海三套样式。
+
+模板的 PDF 在这里：[海报](/files/poster.pdf)、[幻灯片](/files/presentation.pdf)。
+
+源文件放在我的 [GitHub 仓库](https://github.com/js8544/nyu-latex-templates)。
+
+## 效果
+
+### 海报
+![海报](/images/demo-poster.png)
+
+### 幻灯片
+![幻灯片 1](/images/demo-presentation.png)
+
+![幻灯片 2](/images/demo-presentation2.png)
+
+![幻灯片 3](/images/demo-presentation3.png)
+
+## 致谢
+海报模板基于 [Jacobs Landscape Poster](https://www.overleaf.com/latex/templates/landscape-beamer-poster-template/vjpmsxxdvtqk)，幻灯片模板基于 [Unofficial NEO UEA Template](https://www.overleaf.com/latex/templates/unofficial-neo-uea-template/qvhndvzjqmqj)。

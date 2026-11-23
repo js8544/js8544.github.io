@@ -6,7 +6,7 @@ excerpt: "Essays and notes by Jin Shang."
 ---
 <ul>
 {% for post in site.categories.blog %}{% unless post.tags contains 'leetcode' or post.hidden %}
-<li><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time> <a href="{{ post.url }}"{% if post.lang %} lang="{{ post.lang }}"{% endif %}>{{ post.title }}</a></li>
+<li><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time> <a href="{{ post.url }}">{% include post-title.html post=post %}</a></li>
 {% endunless %}{% endfor %}
 </ul>
 

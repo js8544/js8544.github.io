@@ -12,7 +12,7 @@ excerpt: "Jin Shang (尚晋) builds Offloop and writes about AI products and age
 <h2>{% include t.html en="Writing" zh="文章" %}</h2>
 <ul>
 {% assign shown = 0 %}{% for post in site.categories.blog %}{% unless post.tags contains 'leetcode' or post.hidden %}{% if shown < 5 %}{% assign shown = shown | plus: 1 %}
-<li><a href="{{ post.url }}"{% if post.lang %} lang="{{ post.lang }}"{% endif %}>{{ post.title }}</a> <small>({{ post.date | date: "%Y" }})</small></li>
+<li><a href="{{ post.url }}">{% include post-title.html post=post %}</a> <small>({{ post.date | date: "%Y" }})</small></li>
 {% endif %}{% endunless %}{% endfor %}
 </ul>
 <p><a href="/blog/">{% include t.html en="All writing" zh="全部文章" %}</a> · <a href="/publications/">{% include t.html en="Publications" zh="论文" %}</a></p>

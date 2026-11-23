@@ -2,6 +2,6 @@
 sitemap: false
 ---
 [{% assign first = true %}{% for post in site.posts %}{% unless post.hidden or post.search_omit %}{% unless first %},{% endunless %}{% assign first = false %}
-{"title": {{ post.title | jsonify }}, "link": {{ post.url | jsonify }}, "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 300 | jsonify }}}{% endunless %}{% endfor %}{% for page in site.pages %}{% if page.title and page.search_omit != true and page.layout == 'page' %},
+{"title": {{ post.title | jsonify }}, "title_translated": {{ post.title_translated | default: "" | jsonify }}, "lang": {{ post.lang | default: "en" | jsonify }}, "link": {{ post.url | jsonify }}, "excerpt": {{ post.excerpt | strip_html | strip_newlines | truncate: 300 | jsonify }}}{% endunless %}{% endfor %}{% for page in site.pages %}{% if page.title and page.search_omit != true and page.layout == 'page' %},
 {"title": {{ page.title | jsonify }}, "link": {{ page.url | replace: 'index.html', '' | jsonify }}, "excerpt": {{ page.excerpt | strip_html | strip_newlines | jsonify }}}{% endif %}{% endfor %}
 ]

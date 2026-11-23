@@ -24,7 +24,7 @@ sitemap: false
   var words = q.toLowerCase().split(/\s+/);
   fetch('/search.json').then(function (r) { return r.json(); }).then(function (items) {
     var hits = items.filter(function (it) {
-      var text = (it.title + ' ' + it.excerpt).toLowerCase();
+      var text = (it.title + ' ' + (it.title_translated || '') + ' ' + it.excerpt).toLowerCase();
       return words.every(function (w) { return text.indexOf(w) !== -1; });
     });
     status.textContent = document.documentElement.getAttribute('data-ui') === 'zh'
@@ -34,7 +34,8 @@ sitemap: false
       var li = document.createElement('li');
       var a = document.createElement('a');
       a.href = it.link;
-      a.textContent = it.title;
+      var zhUi = document.documentElement.getAttribute('data-ui') === 'zh';
+      a.textContent = (it.title_translated && (it.lang === 'zh') !== zhUi) ? it.title_translated : it.title;
       li.appendChild(a);
       list.appendChild(li);
     });

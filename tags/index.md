@@ -9,7 +9,7 @@ search_omit: true
 {% for tag in tags %}
 <h2 id="{{ tag[0] | slugify }}">{{ tag[0] }}</h2>
 <ul>
-{% for post in tag[1] %}{% unless post.hidden %}<li><a href="{{ post.url }}"{% if post.lang %} lang="{{ post.lang }}"{% endif %}>{{ post.title }}</a></li>
+{% for post in tag[1] %}{% unless post.hidden %}<li><a href="{{ post.url }}">{% include post-title.html post=post %}</a></li>
 {% endunless %}{% endfor %}
 </ul>
 {% endfor %}
