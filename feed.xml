@@ -14,7 +14,8 @@ sitemap: false
   <uri>{{ site.url }}/</uri>
   {% if site.owner.email %}<email>{{ site.owner.email }}</email>{% endif %}
 </author>
-{% for post in site.posts limit:20 %}
+{% assign feed_posts = site.posts | where_exp: 'p', 'p.hidden != true' %}
+{% for post in feed_posts limit:20 %}
 {% if post.author %}
   {% assign author = site.data.authors[post.author] %}
 {% else %}

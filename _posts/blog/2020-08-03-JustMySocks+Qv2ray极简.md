@@ -4,6 +4,9 @@ title: "JustMySocks+Qv2ray极简教程"
 modified:
 categories: blog
 lang: zh
+hidden: true
+search_omit: true
+sitemap: false
 excerpt:
 tags: []
 image:

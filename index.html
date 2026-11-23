@@ -10,7 +10,7 @@ excerpt: "Jin Shang (尚晋) builds Offloop and writes about AI products and age
 
 <h2>Writing</h2>
 <ul>
-{% assign shown = 0 %}{% for post in site.categories.blog %}{% unless post.tags contains 'leetcode' %}{% if shown < 5 %}{% assign shown = shown | plus: 1 %}
+{% assign shown = 0 %}{% for post in site.categories.blog %}{% unless post.tags contains 'leetcode' or post.hidden %}{% if shown < 5 %}{% assign shown = shown | plus: 1 %}
 <li><a href="{{ post.url }}"{% if post.lang %} lang="{{ post.lang }}"{% endif %}>{{ post.title }}</a> <small>({{ post.date | date: "%Y" }})</small></li>
 {% endif %}{% endunless %}{% endfor %}
 </ul>
