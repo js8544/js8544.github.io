@@ -6,7 +6,10 @@
 <body>
 <header>
 <nav>{% unless page.url == '/' %}<a href="/">Jin Shang</a> · <a href="/blog/">{% include t.html en="Writing" zh="文章" %}</a> · <a href="/publications/">{% include t.html en="Publications" zh="论文" %}</a>{% endunless %}</nav>
-<span class="switches" hidden><button type="button" id="lang-switch"></button> · <button type="button" id="theme-switch"></button></span>
+<span class="switches" hidden>
+<button type="button" id="lang-switch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.500 5.600 12 3z"/></svg></button>
+<button type="button" id="theme-switch"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.500A8 8 0 0 1 9.500 4a8 8 0 1 0 10.500 10.500z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.500v2.500M12 19v2.500M2.500 12H5M19 12h2.500M5.300 5.300 7 7M17 17l1.700 1.700M18.700 5.300 17 7M7 17l-1.700 1.700"/></svg></button>
+</span>
 </header>
 <main>
 {{ content }}
@@ -22,8 +25,12 @@
   }
   function label() {
     var zh = d.getAttribute('data-ui') === 'zh';
-    langBtn.textContent = zh ? 'English' : '中文';
-    themeBtn.textContent = theme() === 'dark' ? (zh ? '浅色' : 'Light') : (zh ? '深色' : 'Dark');
+    var dark = theme() === 'dark';
+    d.setAttribute('data-shown-theme', dark ? 'dark' : 'light');
+    var l = zh ? 'Switch to English' : '切换到中文';
+    var t = dark ? (zh ? '切换到浅色' : 'Switch to light') : (zh ? '切换到深色' : 'Switch to dark');
+    langBtn.title = l; langBtn.setAttribute('aria-label', l);
+    themeBtn.title = t; themeBtn.setAttribute('aria-label', t);
   }
   function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   langBtn.onclick = function () {
