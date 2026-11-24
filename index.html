@@ -2,17 +2,14 @@
 layout: default
 excerpt: "Jin Shang (尚晋) builds Offloop and writes about AI products and agents."
 ---
-<h1>Jin Shang 尚晋</h1>
-
 <p data-l="en">I am building Offloop, a workspace where agent employees and people work together. Before this I worked on recommender systems at WeChat, studied computer science at Carnegie Mellon, and did math research at NYU Abu Dhabi.</p>
 <p data-l="zh" lang="zh">我在做 Offloop，一个让 agent 员工和人一起工作的工作空间。之前在微信做推荐系统，在卡内基梅隆大学读计算机硕士，在纽约大学阿布扎比分校做过数学研究。</p>
 
-<p><a href="mailto:{{ site.owner.email }}">{% include t.html en="Email" zh="邮箱" %}</a> · <a href="https://github.com/{{ site.owner.github }}">GitHub</a> · <a href="https://linkedin.com/in/{{ site.owner.linkedin }}">LinkedIn</a></p>
+<p class="m"><a href="mailto:{{ site.owner.email }}">{% include t.html en="Email" zh="邮箱" %}</a> &nbsp; <a href="https://github.com/{{ site.owner.github }}">GitHub</a> &nbsp; <a href="https://linkedin.com/in/{{ site.owner.linkedin }}">LinkedIn</a></p>
 
-<h2>{% include t.html en="Writing" zh="文章" %}</h2>
-<ul>
-{% assign shown = 0 %}{% for post in site.categories.blog %}{% unless post.hidden %}{% if shown < 5 %}{% assign shown = shown | plus: 1 %}
-<li><a href="{{ post.url }}">{% include post-title.html post=post %}</a> <small>({{ post.date | date: "%Y" }})</small></li>
-{% endif %}{% endunless %}{% endfor %}
-</ul>
-<p><a href="/blog/">{% include t.html en="All writing" zh="全部文章" %}</a> · <a href="/publications/">{% include t.html en="Publications" zh="论文" %}</a></p>
+<p class="m label">{% include t.html en="Writing" zh="文章" %}</p>
+{% for post in site.categories.blog %}{% unless post.hidden %}
+<p class="e"><a href="{{ post.url }}">{% include post-title.html post=post %}</a><br><span class="m"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time></span></p>
+{% endunless %}{% endfor %}
+
+<p class="m label"><a href="/publications/">{% include t.html en="Publications" zh="论文" %}</a></p>

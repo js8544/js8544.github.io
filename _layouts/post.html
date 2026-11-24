@@ -6,12 +6,12 @@ layout: default
 <article>
 {% if parts.size > 1 %}
 <h1><span data-l="{{ primary }}" lang="{{ primary }}">{{ page.title }}</span><span data-l="{{ other }}" lang="{{ other }}">{{ page.title_translated | default: page.title }}</span></h1>
-<p><small><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time></small></p>
+<p class="date"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time></p>
 <div data-l="{{ primary }}" lang="{{ primary }}">{{ parts[0] }}</div>
 <div data-l="{{ other }}" lang="{{ other }}">{{ parts[1] }}</div>
 {% else %}
 <h1>{{ page.title }}</h1>
-<p><small><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time></small></p>
+<p class="date"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time></p>
 {{ parts[0] }}
 {% endif %}
 </article>

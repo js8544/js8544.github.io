@@ -5,32 +5,17 @@ title_zh: 论文
 excerpt: "Papers by Jin Shang."
 modified: 2014-08-08T19:44:38.564948-04:00
 ---
+<p class="e"><a href="https://aclanthology.org/2026.emnlp-main.336/">When Should Models Change Their Minds? Contextual Belief Management in Large Language Models</a><br><span class="m">Haoming Xu, Weihong Xu, Zongrui Li, Mengru Wang, Yunzhi Yao, Chiyu Wu, Jin Shang, Yu Gong, Shumin Deng</span><br><span class="m">EMNLP 2026</span></p>
 
-- **[When Should Models Change Their Minds? Contextual Belief Management in Large Language Models](https://aclanthology.org/2026.emnlp-main.336/)**<br/>
-  Haoming Xu, Weihong Xu, Zongrui Li, Mengru Wang, Yunzhi Yao, Chiyu Wu, Jin Shang, Yu Gong, Shumin Deng
-  <br/>
-  _EMNLP 2026_
+<p class="e"><a href="https://arxiv.org/abs/2606.17016">TokenPilot: Cache-Efficient Context Management for LLM Agents</a><br><span class="m">Buqiang Xu, Zirui Xue, Dianmou Chen, Chenyang Fu, Chiyu Wu, Caiying Huang, Chen Jiang, Jizhan Fang, Xinle Deng, Yijun Chen, Yunzhi Yao, Xuehai Wang, Jin Shang, Gong Yu, Ningyu Zhang</span><br><span class="m">Findings of EMNLP 2026</span></p>
 
-- **[TokenPilot: Cache-Efficient Context Management for LLM Agents](https://arxiv.org/abs/2606.17016)**<br/>
-  Buqiang Xu, Zirui Xue, Dianmou Chen, Chenyang Fu, Chiyu Wu, Caiying Huang, Chen Jiang, Jizhan Fang, Xinle Deng, Yijun Chen, Yunzhi Yao, Xuehai Wang, Jin Shang, Gong Yu, Ningyu Zhang
-  <br/>
-  _Findings of EMNLP 2026_
+<p class="e"><a href="https://arxiv.org/abs/2008.12033">Duflo-Serganova homology for exceptional modular Lie superalgebras with Cartan matrix</a><br><span class="m">Andrey Krutov, Dimitry Leites, Jin Shang</span><br><span class="m">arXiv:2008.12033</span></p>
 
-- **[Duflo-Serganova homology for exceptional modular Lie superalgebras with Cartan matrix](https://arxiv.org/abs/2008.12033)**<br/>
-  Andrey Krutov, Dimitry Leites, Jin Shang
-  <br/>
-  _arXiv:2008.12033_
+<p class="e"><a href="https://arxiv.org/abs/1904.09579">Computer-aided study of double extensions of restricted Lie superalgebras preserving the non-degenerate closed 2-forms in characteristic 2</a><br><span class="m">Sofiane Bouarroudj, Dimitry Leites, Jin Shang. Experimental Mathematics, 2019 - Taylor & Francis</span></p>
 
-- **[Computer-aided study of double extensions of restricted Lie superalgebras preserving the non-degenerate closed 2-forms in characteristic 2](https://arxiv.org/abs/1904.09579)**<br/>
-  Sofiane Bouarroudj, Dimitry Leites, Jin Shang. Experimental Mathematics, 2019 - Taylor & Francis
-  <br/>
+<p class="e"><a href="https://arxiv.org/abs/1904.09578">The roots of exceptional modular Lie superalgebras with Cartan matrix</a><br><span class="m">Sofiane Bouarroudj, Dimitry Leites, Alexander Lozhechnyk, Jin Shang. Arnold Mathematical Journal volume 6, pages63–118(2020)</span></p>
 
-- **[The roots of exceptional modular Lie superalgebras with Cartan matrix](https://arxiv.org/abs/1904.09578)**<br/>
-  Sofiane Bouarroudj, Dimitry Leites, Alexander Lozhechnyk, Jin Shang. Arnold Mathematical Journal volume 6, pages63–118(2020)
-  <br/>
-
-- **[Real-Time Transmission Mechanism Design for Wireless IoT Sensors with Energy Harvesting under Power Saving Mode](https://arxiv.org/abs/1812.02615)**<br/>
-  Jin Shang, Muhammad Junaid Farooq, Quanyan Zhu
+<p class="e"><a href="https://arxiv.org/abs/1812.02615">Real-Time Transmission Mechanism Design for Wireless IoT Sensors with Energy Harvesting under Power Saving Mode</a><br><span class="m">Jin Shang, Muhammad Junaid Farooq, Quanyan Zhu</span></p>
 
 <!-- Looking for a simple, responsive, theme for your Jekyll powered blog? Well look no further. Here be **So Simple Theme**, the follow up to
 [**Minimal Mistakes**](http://mmistakes.github.io/minimal-mistakes) --- by designer slash illustrator [Michael Rose](http://mademistakes.com).

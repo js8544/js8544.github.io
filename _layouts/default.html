@@ -3,18 +3,20 @@
 <head>
 {% include head.html %}
 </head>
-<body>
+<body{% if page.url == '/' %} class="home"{% endif %}>
+<div class="wrap">
 <header>
-<nav>{% unless page.url == '/' %}<a href="/">Jin Shang</a> · <a href="/blog/">{% include t.html en="Writing" zh="文章" %}</a> · <a href="/publications/">{% include t.html en="Publications" zh="论文" %}</a>{% endunless %}</nav>
+{% if page.url == '/' %}<h1 class="site">{% include t.html en="Jin Shang" zh="尚晋" %}</h1>{% else %}<div class="site"><a href="/">{% include t.html en="Jin Shang" zh="尚晋" %}</a></div>{% endif %}
 <span class="switches" hidden>
 <button type="button" id="lang-switch"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg></button>
-<button type="button" id="theme-switch"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.500A8 8 0 0 1 9.500 4a8 8 0 1 0 10.500 10.500z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.500v2.500M12 19v2.500M2.500 12H5M19 12h2.500M5.300 5.300 7 7M17 17l1.700 1.700M18.700 5.300 17 7M7 17l-1.700 1.700"/></svg></button>
+<button type="button" id="theme-switch"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3 7 7M17 17l1.7 1.7M18.7 5.3 17 7M7 17l-1.7 1.7"/></svg></button>
 </span>
 </header>
 <main>
 {{ content }}
 </main>
 {% include footer.html %}
+</div>
 <script>
 (function () {
   var d = document.documentElement;
@@ -41,6 +43,7 @@
     var next = theme() === 'dark' ? 'light' : 'dark';
     d.setAttribute('data-theme', next); save('theme', next); label();
   };
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', label);
   label();
   document.querySelector('.switches').hidden = false;
 })();
