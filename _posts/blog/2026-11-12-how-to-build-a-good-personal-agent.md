@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "How to Build a Good Personal Agent (Part 1): Product, Team, and Tech"
+title_translated: "如何做出好的 Personal Agent 产品（一）：产品、团队和技术"
 modified:
 categories: blog
 excerpt: "What makes a personal agent good: eight principles, what sets its ceiling, and the team, product, and tech it takes to build one."
@@ -487,3 +488,493 @@ So the hardest part isn't the tech. It's restraint in the product and an AI-nati
 **When you stop feeling like you're using an AI product, it has worked.**
 
 **Coming next.** This was Part 1 of "How to Build a Good Personal Agent," on product, team, and tech. Part 2 covers business model and strategy: whether the platform tax gets competed away, whether hardware or software becomes the entry point, and how big companies and startups each win.
+
+<!--translation-->
+
+> **这是《如何做出好的 Personal Agent 产品》的第一部分。** 这一篇从产品、团队和技术的角度，讲 personal agent 是什么、好的 personal agent 有哪八条原则、怎么把它做出来。第二部分讲商业模式和战略：平台税会不会被打下来，软件和硬件谁会成为入口，大公司和创业公司各自怎么赢。
+
+上个月在旧金山，我还租来的车之前，给 Instinct 发了一句：「SFO 还车怎么导航？」
+
+它的回复很直接：我租的是哪家，几点之前要还，进机场前最后一个顺路的加油站在哪，还完了去哪个航站楼。我从没告诉过它我今天要还车。两周前我和它聊过一次租车，它记住了；日历里有我的航班，它也看到了。
+
+![一句「SFO 还车怎么导航」，它把租车订单、航班、加油站都用上了，还告诉我还完车怎么去我的航站楼](/images/blog/how-to-build-a-good-personal-agent/zh/01.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">一句「SFO 还车怎么导航」，它把租车订单、航班、加油站都用上了，还告诉我还完车怎么去我的航站楼</p>
+
+那一刻我意识到，这个东西和我用过的所有 AI 产品都不一样。它更像一个一直在我身边、知道我在干什么的人。
+
+从 8 月 19 日开始，我给它发了一千多条消息。这篇文章想把这件事从头讲清楚：一个好的 personal agent 应该遵循哪八条原则，决定它上限的是什么，以及组织、产品、技术上具体怎么做。所有判断都从同一句话出发：**personal agent 是一种生活方式**。
+
+今年下半年，硅谷的 AI 产品几乎同时转向了这里：iMessage 里的 Instinct，Meta 的 Muse，OpenAI 的 Dots，Manus 的 Cue。**形态在收敛**：云端常驻，一直在线，有自己的身份。**分歧在入口**：做成通讯录里的一个联系人，还是一个独立 app。背后是三件事同时成熟了：云端常驻的基础设施，够快够便宜的模型，以及年初开源 agent 那一波验证过的需求。
+
+## 一、定义：personal agent 是一种生活方式
+
+2024 年是 chatbot，人和 AI 的关系是**提问**。2025 年是干活的 agent，以写代码为主，关系是**监督**。这两代都还是工具，各自解决一类问题。2026 年是 personal agent，它开始**改变人的生活方式**。
+
+工具是按场景定义的：写作工具、翻译工具、订票工具，先有一件事，再去找它。personal agent 很难这样定义。
+
+![我交给它的 1,010 件事，分散在生活的各个角落，而且越用越宽](/images/blog/how-to-build-a-good-personal-agent/zh/02.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">我交给它的 1,010 件事，分散在生活的各个角落，而且越用越宽</p>
+
+我回头看自己那一千多条消息，最直观的感受是「杂」：旅行和交通占四分之一，吃饭占一成多，剩下的是购物、银行卡、驾照、体育、资讯、闲聊。最早替掉的是我的搜索引擎，后来是订酒店、订餐厅，再后来是注册账号、处理账单。**没有哪一个是 killer use case**，也没有哪件事非它不可。可是一件一件攒起来，它就成了一个替代不掉的习惯。所以我更愿意这样定义它：
+
+工具的用法是：**先有一件事，再想用什么来办**。生活方式的用法是：**任何事，默认先交给它，它办不了再说**。
+
+这个默认是怎么形成的？委托一件事有两个成本：**说清楚**和**盯着办完**。两者加起来比自己干还麻烦，人就会自己干，所以大多数 AI 产品停在了「偶尔用一下」。personal agent 把这两个成本都压了下去：记忆让「说清楚」越来越短，能办完让「盯着」消失。成本过了某个临界点，人的默认动作就翻过去了。信任也跟着一级一级攒起来：从问答、建议，到替你下单、办要身份验证的正事，最后替你维护关系。
+
+![交给它的权限，是一级一级放大的](/images/blog/how-to-build-a-good-personal-agent/zh/03.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">交给它的权限，是一级一级放大的</p>
+
+## 二、好的 Personal Agent 产品：8P 原则
+
+这八条原则，是我高强度用过市面上所有主流 personal agent 之后总结出来的。最后留下来、每天在用的只有两家：Instinct 和 Muse。其余没留下来的，**每一个都至少违背了其中两条**。
+
+下面这八条原则，说的就是怎么让人一级一级地愿意把生活交出去。它们环环相扣，前一条是后一条的前提。
+
+![好的 personal agent：8P](/images/blog/how-to-build-a-good-personal-agent/zh/04.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">好的 personal agent：8P</p>
+
+### 原则一 · Personable：像人，而非人机
+
+**对用户来说，它就是一个人**：说人话，像人一样交互。
+
+它就是通讯录里的一个联系人，一条长对话，不分 session。你可以打断它，可以随时插一句别的事，就像和朋友聊天。
+
+![三代 AI 产品的交互：越往后，越不像在用一个 agent，越像在给一个人发消息](/images/blog/how-to-build-a-good-personal-agent/zh/05.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">三代 AI 产品的交互：越往后，越不像在用一个 agent，越像在给一个人发消息</p>
+
+两个常见的反例：
+
+- **工具类产品的多入口**：写作、翻译、生图、读 PDF 各占一个入口，用户得先想清楚该点哪一个。
+- **coding agent 的人机味**：回一句话也要标题、分点、加粗，像在交一份报告。
+
+所以第一条原则很简单：**入口就是原来的入口，交互就是人和人的交互**。人怎么和人相处，就怎么和它相处。
+
+### 原则二 · Proximate：触手可及
+
+**离你足够近：入口近，回得快，说得短。**
+
+距离由三样东西决定。
+
+**入口在哪。** Instinct 是 iMessage 里的一个联系人，消息都在本地，点开就是点开，不用等 app 加载。独立 app 就要多一步打开，用得就会少一大截。对一个要变成习惯的产品，多一步就是多一道坎。
+
+反过来，有的产品一打开就是五个 tab，每个 tab 里又是一排分类和按钮。离用户越远，用户就越不会来。
+
+**多快回你。** 速度是第一位的。先是产品本身要快：点开就能说话，不等启动画面，不等加载。再是回复要快。Instinct 和 Muse 都非常非常快：一方面交互用的是小而快的模型，另一方面靠架构设计，交互和执行分开（第六部分展开）。交代完一件事，它应该马上回一句「好，我去办」，然后在后台慢慢办，别让你盯着一个转圈的图标。你还可以一口气交代好几件事，它一件件去办。
+
+**说话像不像人。** 很多 agent 回消息带着报告味：标题、分点、加粗，长篇大论。原因不难理解：今天最聪明的模型，都在为写代码和做复杂任务优化，交付越长越完整越好。但人和人发消息不是这样的。好的 personal agent 说话短、直接，像一个靠谱的朋友回你消息。
+
+![好的回复：短、直接，说人话](/images/blog/how-to-build-a-good-personal-agent/zh/06.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">好的回复：短、直接，说人话</p>
+
+### 原则三 · Persistent：一直在线
+
+**它是一直在的那个人，你不找它，它也在。**
+
+过去的 AI 是找它的时候才在。一个会话一件事，聊完就忘，关掉页面事情就停了。
+
+personal agent 是 7×24 在线的。你关了手机，它还在后台干活；你上周交代的事，它接着办；明天要做的事，它记着。
+
+一直在，是后面几条原则的前提。先一直在，才谈得上懂你、主动、把事办完。
+
+### 原则四 · Personalized：懂你，而且越用越懂
+
+开头那个还车的例子就是这一条。我只问了一句「怎么导航」，它把租车订单、航班、位置、我的习惯全用上了。
+
+订餐厅，它知道我爱吃什么，直接给我挑好；每天的资讯推送，我随口说一句「这类少推点」，它下次就改了。我没有配置过任何东西。
+
+![每天的资讯推送，随口反馈一句就越推越准](/images/blog/how-to-build-a-good-personal-agent/zh/07.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">每天的资讯推送，随口反馈一句就越推越准</p>
+
+这有点像推荐系统：每一次互动都是一次反馈，它对你的理解是持续积累、持续修正的。
+
+懂你之所以重要，第三部分会讲到：context 的价值是指数级增长的，懂得越全，它能办成的事就越多。
+
+### 原则五 · Proactive：主动
+
+用了一段时间以后，真正让我觉得「它懂我」的时刻，大多是它先开口的时候。
+
+比如我邮箱里来了一封服务告警，我还没看到，它先提醒我了。
+
+主动不等于打扰。你打开的时候，看到的是它替你想过的东西：今天的天气，一件可以替你办的事；你不打开，它也不来烦你。最好的主动，是只在真正重要的事情上先开口。
+
+最好的触发源，是生活里本来就在发生的通知：邮件、订单、账单、日程。这些事本来就需要有人处理，agent 只是比你先看到。
+
+### 原则六 · Prudent：克制
+
+克制最常见的反面，是过于主动：太想表现自己，不停地猜用户想要什么，推一堆其实并不相关的建议，猜错的比猜对的多，最后用户只想把它关掉。好的 personal agent 正好相反：一天里发生的大部分事，它看过、记下、顺手办好，但不来烦你；只有真正改变你安排的事，它才开口。
+
+这就是克制：不发推广，不炫耀自己做了什么，没把握的事不打扰，只在值得的时候开口。
+
+![同样 18 件事：过度主动的 agent 每件都推给你，克制的 agent 只在两件事上开口](/images/blog/how-to-build-a-good-personal-agent/zh/08.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">同样 18 件事：过度主动的 agent 每件都推给你，克制的 agent 只在两件事上开口</p>
+
+判断还不够准的时候，可以做一个折中。Muse 的信息流就是这样：主界面只放最重要的事，不那么重要的提醒和建议放进信息流。你去翻，它在；你不翻，它不打扰。
+
+![Muse 的信息流：次要的东西放在这里，等你去翻](/images/blog/how-to-build-a-good-personal-agent/zh/09.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">Muse 的信息流：次要的东西放在这里，等你去翻</p>
+
+主动和克制，其实是同一种能力：**判断一件事值不值得打扰你。** 做好了是一个懂分寸的人，做不好就是一个烦人的推销员。
+
+这个判断靠的是一套足够好的、类似推荐系统的个性化机制。它得非常懂你，才知道什么时候该主动、什么时候该克制，哪些事该推给你、哪些不用。所以主动、克制和原则四的「懂你」是一体两面：**懂得越深，分寸越准。**
+
+### 原则七 · Productive：能办完，真把事情闭环
+
+我让 Instinct 帮我注册一个 Apple 开发者账号。这件事过去要折腾好久：公司信息、邓白氏编码、各种表。它一步步走了下来，只把付费和身份验证留给我。
+
+![一句话，它把 Apple 开发者账号一步步走了下来](/images/blog/how-to-build-a-good-personal-agent/zh/10.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">一句话，它把 Apple 开发者账号一步步走了下来</p>
+
+规划一条路线，它直接给我一张能用的导航，连文字说明都省了。
+
+![规划路线，直接给一张能用的导航](/images/blog/how-to-build-a-good-personal-agent/zh/11.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">规划路线，直接给一张能用的导航</p>
+
+有意思的是，这些都不是专门为我优化过的功能。没有人提前想到「用户可能要注册 Apple 开发者账号」，然后去做一个功能。它能办成，是因为它有一组通用的底层能力（搜索、浏览器、邮箱、支付、执行环境），然后自己组合出了办法。
+
+这引出了做 personal agent 产品最反直觉的一点：**不要设计功能，要设计环境。**
+
+传统的产品经理习惯从场景出发，一个场景做一个功能。但 personal agent 面对的需求是无穷无尽的长尾，你设想出来的场景永远做不完，而且功能做得越多，产品越复杂，通用能力反而越弱。
+
+正确的做法是先抽象再具体，先通用再专用：一百个需求，先分类，再抽象出背后需要的几样通用能力，然后把这些能力给到 agent，让用法自己涌现出来。产品团队定义的是「类型」，用户生成的是「实例」。
+
+用户真正的底层需求其实就那么几种：懒，想有掌控感，想要信息，想要陪伴。满足这些底层需求，靠的是能力和环境。
+
+### 原则八 · Private：隐私安全
+
+交给它的事越多、越重要，越需要让人放心。
+
+可托付至少意味着四件事：
+
+- **数据不出端。** 最私密的数据，比如聊天记录，只在手机本地处理，不上云。
+- **逐项授权。** 每一项能力、每一份数据，都由用户自己打开，装上时什么都不拿。
+- **支付碰不到卡。** 每一笔由你确认，确认之后才签发一次性凭证，agent 自己从来接触不到你的卡号。
+- **可追溯，可撤回。** 它做过的每件事都有记录，做错了可以回滚。
+
+![Muse 付款：用户连接 Stripe Link，卡信息存在 Stripe 那边，agent 自己看不到](/images/blog/how-to-build-a-good-personal-agent/zh/12.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">Muse 付款：用户连接 Stripe Link，卡信息存在 Stripe 那边，agent 自己看不到</p>
+
+隐私决定了信任能攒到第几级。没有这一条，前面七条做得再好，用户也只敢把小事交给它。
+
+## 三、决定上限的：context 和闭环
+
+### context 越全，价值指数级增长
+
+personal agent 的价值来自 context 之间的组合。组合不止两两配对，任意几样都能凑在一起：n 类信息能凑出 2ⁿ 种组合，每多一类就翻一倍。所以只有一半 context 的 agent，拿到的远不到一半价值，差距是指数级的。这决定了用户会把 context 集中到一个 agent 上。
+
+![信息翻一倍，组合翻了三番：组合不止两两配对，任意几样都能凑在一起](/images/blog/how-to-build-a-good-personal-agent/zh/13.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">信息翻一倍，组合翻了三番：组合不止两两配对，任意几样都能凑在一起</p>
+
+### 上限由闭环决定，模型只决定下限
+
+一个 personal agent 能做到多强，取决于它的 context 有多全、闭环有多完整：入口、个人 context、执行、支付、社交关系，是不是都在一处，能不能互相带动。
+
+看看美国这一波是怎么拼出来的：入口借 iMessage 或 WhatsApp；个人 context 从 Gmail、日历一处处授权拼起来；执行靠浏览器模拟点击；支付再接一个 Stripe；社交关系散落在各个平台。每一样都是借来的，每一个接缝都是摩擦。
+
+所以同样的模型，放进更全的 context、更完整的闭环，就是更强的 agent。**模型决定下限，闭环决定上限。**
+
+![上限由 context 和闭环决定](/images/blog/how-to-build-a-good-personal-agent/zh/14.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">上限由 context 和闭环决定</p>
+
+## 四、组织：上一代的做法，做不出 personal agent
+
+### 三个最常见的坑
+
+| 上一代的做法 | 为什么行不通 | 这一代应该 |
+| --- | --- | --- |
+| 把 agent 做成功能的堆叠 | 体验来自通用能力和 context 的叠加 | 设计环境，让能力自己涌现 |
+| 各个业务线各做一个 agent | context 被切碎，投入只能线性相加 | 一个中枢，所有业务合力 |
+| 产品、工程、模型分头负责 | 「能不能做」要跨三层判断，交接成了瓶颈 | 一个全栈的负责人，原子化团队 |
+
+问题出在上一代的产品方法和组织方式套不到 agent 上，跟哪个团队无关。创业公司天然小而全，反而不容易掉进这些坑；越大的公司，越容易用熟悉的方式去做一件不熟悉的事。
+
+### 负责人：最好同时懂模型、工程和产品
+
+AI 产品里，「能不能做」要跨三层判断：改 prompt、改 harness，还是做后训练。这三层如果分在三个人身上，一个功能就会在产品、工程、模型之间来回传，没人能拍板；每多一个交接点，迭代就慢一拍。
+
+![过去的产品经理知道什么能做；AI 产品里，这个判断要跨 prompt、harness、模型三层](/images/blog/how-to-build-a-good-personal-agent/zh/15.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">过去的产品经理知道什么能做；AI 产品里，这个判断要跨 prompt、harness、模型三层</p>
+
+所以**负责人最好同时懂模型、工程和产品**，自己就能判断一件事该在哪一层解决，当场拍板。这个人还需要两样东西：
+
+- **产品品味**：克制、无形、简洁。同样做 personal agent，有的团队做成了进度看板，有的做成了一排页签和模板；好的 personal agent，打开就是一段对话。
+- **学得极快**：agent 的做法几个月就换一代，判断只能来自一线：每天自己用、自己动手改。
+
+### 原子化团队：效果、工程、模型自己闭环
+
+组织的基本单元是一个个小的原子团队，取代「产品组、开发组、算法组」的分法，每个团队里有三种角色：
+
+- **效果**：定 benchmark、看指标、从真实使用里找问题；
+- **工程**：做 harness、接入和基础设施，把能力做出来；
+- **模型**：做后训练，让模型适配 harness 和场景。
+
+效果发现问题，工程和模型一起改，效果再验证，不用跨团队排期。中枢由几个这样的团队组成，人少、密度高，每个团队负责一块能力或一类场景：入口与交互、harness、memory、主动性、模型。每个人都带着 agent 干活，不靠堆人力。
+
+![过去按职能分组，一个功能来回交接；现在每个小团队里效果、工程、模型自己闭环](/images/blog/how-to-build-a-good-personal-agent/zh/16.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">过去按职能分组，一个功能来回交接；现在每个小团队里效果、工程、模型自己闭环</p>
+
+### 产品、harness、模型一起设计
+
+这三者构成一个飞轮：
+
+- 产品上的新功能，沉淀成 harness 里的新 skill；用户使用中暴露的问题，反过来驱动 harness 自我迭代。
+- harness 的进步，直接提升用户体验。
+- 用户数据回流，用于模型训练；harness 运行时产生的 trace 和环境，成为后训练的题目。
+- 模型的进步，又解锁产品的新场景。
+
+每转一圈，产品就更好用、更懂人。
+
+![产品、harness、模型三者联动的数据飞轮](/images/blog/how-to-build-a-good-personal-agent/zh/17.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">产品、harness、模型三者联动的数据飞轮</p>
+
+## 五、产品：面向 agent 设计
+
+### 对人，越像一个人越好；对 agent，环境越通用越好
+
+落到具体做法上，有六条：
+
+1. **把它当成一个人**：它就是通讯录里的一个联系人，在聊天里说话；不做新 app，不加新 tab。
+2. **一定要快**：秒回，说得短；慢的事交给后台，办完再告诉你。
+3. **面向 agent 设计产品**：人在产品里能做的，它都能做。
+4. **设计环境，不设计功能**：给通用能力，不为单个场景做定制 UI。
+5. **做抽象，不做对接**：我们定义类型，用户生成实例。
+6. **让功能自己涌现**：只有基础能力才有可泛化性，可泛化性才能涌现出玩法。
+
+拿我自己用过的几件事来看，没有一件是专门做过的功能，都是几样通用能力加上模型自己组合出来的：
+
+| 我让它做的事 | 背后组合的能力 |
+| --- | --- |
+| 注册一个 Apple 开发者账号 | 搜索查流程 + 浏览器填表 + 邮箱收验证 + 支付留给我确认 |
+| 「SFO 还车怎么导航？」 | 记忆里的租车订单 + 日历里的航班 + 当前位置 + 搜索顺路的加油站 |
+| 规划一条路线 | 搜索 + 产物：直接交付一张能用的导航 |
+| 每天的资讯推送 | 定时触发 + 搜索 + 记忆，随口一句「这类少推点」就改 |
+
+产品团队要做的，是把搜索、浏览器、邮箱、支付、产物、定时这些基础能力做扎实，剩下的交给模型去组合。一件事办成一次，这套做法就沉淀成 skill，下次更快更稳。
+
+### 不设计 UX，设计 AX
+
+每个 agent 产品都有两套界面：给人的，和给 agent 的。这两套界面应该统一。
+
+agent 和人一样是用户：人能做的，它都能做，用的是同一套能力。人怎么发消息、怎么付钱、怎么看通知，它就怎么用。不要为 agent 做定制 UI：做定制 UI，说明你在替用户设想场景，而你设想出来的场景永远做不完。
+
+好的 UX 让人不用思考，好的 AX 让 agent 不用猜。
+
+### context 也是一级一级拿的
+
+用户的信任是一级一级攒的，context 也应该一级一级拿，先用不敏感的，再碰私密的：
+
+1. **用户主动给的**：对话里说的、转过来的文件和链接。
+2. **用户已经公开的**：已经公开给朋友的动态和内容。
+3. **平台内已经在用的兴趣标签**：内部推荐本来就在用的那些。
+4. **逐项授权的**：通知、订单、日程，用户一项一项打开。
+5. **最私密的**：聊天记录，只在手机本地读取，不上云；也可以不做。
+
+前四级几乎不碰隐私，已经足够把「替你办事」做好。场景往上走一级，需要的 context 才往上加一级。
+
+### A2A：它不只服务你一个人
+
+personal agent 的下一步，是替你和别人打交道。
+
+- **对商家的 AI**：退款、改签、售后，你的 agent 直接和商家的 AI 客服谈，两边都是 agent，说清楚就办完了。
+- **和人在一个群里**：朋友约饭、家里安排出行，把它拉进群，它在群里一起商量，商量完顺手就办了。
+
+在一个本来就承载着人与人关系、商家与用户关系的平台上，这两件事会比任何地方都更自然。
+
+## 六、技术：模型和 harness
+
+### 总览：技术上和过去的 agent 完全不同
+
+| 维度 | Personal agent | 过去的 agent |
+| --- | --- | --- |
+| 模型 | 快、说人话、调用稳 | 通用大模型，慢 |
+| 能力 | 通用能力 + 环境 | 每个场景写专属工具 |
+| 执行 | 交互与执行分离，异步 | 同步执行，用户等待 |
+| 运行时 | 云端常驻，三者分离 | 单体，随任务结束 |
+| Context | 以人为中心，持续积累 | 以任务为中心，用完即丢 |
+| 记忆 | 知识图谱，后台整理 | 按任务隔离 |
+| 触发 | 事件 + 定时，主动唤醒 | 用户请求 |
+| 迭代 | 自己发现问题，自己改 | 人工排查、发版 |
+| 隐私 | 敏感数据不出本地，逐项授权 | 整体上传 |
+
+一句话概括：**personal agent 是一个长期存在的进程。** 下面一项项展开。
+
+### 模型：它要的模型，和写代码的 agent 几乎相反
+
+今天最聪明的模型在为写代码优化：任务越复杂越好，交付越长越完整越好，说话像一份报告。personal agent 要的是另外四样东西：
+
+- **快**：交互层必须低延迟。
+- **说人话**：短、自然，不写报告。
+- **工具调用稳**：智力可以一般，调用不能出错。
+- **便宜**：它一直在线。
+
+所以最合理的路线是：选一个快、便宜的开源模型做底座，自己做后训练。训练两类东西：
+
+- **Harness 能力题库**：工具调用、在 app 和网页里操作、memory 读写、说人话。
+- **场景题库**：订餐厅、挂号、改签、行程规划、替家人办事。
+
+第一阶段用 SFT 做冷启动和蒸馏：强模型在环境里做题，筛出高质量轨迹，教会模型会用工具、会说人话。第二阶段用 RL：模型在模拟环境里做题，按「完成任务、调用正确、短而像人」拿 reward。上线之后，真实的 trace 和用户反馈回流，变成新的题目。能力是底座，场景是考题。
+
+![模型后训练：SFT 冷启动加蒸馏，RL 做题，真实 trace 回流成新题](/images/blog/how-to-build-a-good-personal-agent/zh/18.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">模型后训练：SFT 冷启动加蒸馏，RL 做题，真实 trace 回流成新题</p>
+
+### Harness：给通用能力，让用法自己涌现
+
+agent 要的是一个足够通用的环境。从大量真实需求里抽象出来，大概是这几样：
+
+- **搜索**：访问网络，查任何信息。
+- **浏览器**：像人一样操作网页：挂号、预约、下单。
+- **应用内操作**：直接用平台里已有的服务：下单、预约、缴费。
+- **支付**：授权后替你付钱，碰不到你的卡。
+- **多模态**：语音对话、打电话、看图。
+- **产物**：直接交付能用的东西，比如一个网页、一张路线图。
+- **执行环境**：一个 bash，最低的基础，什么任务都能跑。
+- **外部连接器**：日历、文档等各种外部服务。
+
+几个关键的设计：
+
+**极简的 harness。** 一个 agent loop，加上一组通用工具。笨模型需要重 harness，好模型只需要轻 harness；模型每进步一次，harness 就应该删掉一些东西。
+
+![极简 harness：一个 loop，加一组通用工具](/images/blog/how-to-build-a-good-personal-agent/zh/19.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">极简 harness：一个 loop，加一组通用工具</p>
+
+**把产品的每个操作，镜像成 agent 能用的命令。** 人在产品里能做的每一个操作（发消息、查记录、看通知、付钱）都镜像成一条命令行指令，渐进式披露，逐项授权，避免一次把几百个工具塞给模型。
+
+![把人能做的每个操作，镜像成 agent 用的命令](/images/blog/how-to-build-a-good-personal-agent/zh/20.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">把人能做的每个操作，镜像成 agent 用的命令</p>
+
+**skills 按需加载。** 把「怎么办成一件事」写成一份说明书，目录常驻在 context 里，用到时才读取全文；一件事办成之后，经验沉淀成新的 skill。
+
+![skills：目录常驻，按需读取，成功后沉淀](/images/blog/how-to-build-a-good-personal-agent/zh/21.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">skills：目录常驻，按需读取，成功后沉淀</p>
+
+**外部服务：重要的服务一方接入，其余用 browser use 和 computer use 兜底。** 高频、重要的服务，比如出行、外卖、电商，由服务方自己接入，通过 API 或 MCP 暴露能力，最快最稳。剩下的长尾没有接口也没关系：agent 用 computer use 在 app 里、用 browser use 在网页上，像人一样去办。两条路共用同一套身份授权和支付授权。
+
+对服务方来说，接得越深，越容易被 agent 选中。除了暴露能力，还可以通过 webhook 把事件（订单状态、到店提醒）推给 agent，用卡片把自己的界面带进对话。
+
+![外部服务：头部靠一方接入，长尾靠 computer use 和 browser use 兜底](/images/blog/how-to-build-a-good-personal-agent/zh/22.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">外部服务：头部靠一方接入，长尾靠 computer use 和 browser use 兜底</p>
+
+![服务方接入：能力、事件、界面](/images/blog/how-to-build-a-good-personal-agent/zh/23.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">服务方接入：能力、事件、界面</p>
+
+**支付只拿一次性凭证。** 授权 → 支付请求 → 用户确认 → 签发一次性凭证 → 商家扣款 → 留下交易记录。agent 自始至终碰不到用户的卡。
+
+![支付：一次性凭证，agent 碰不到卡](/images/blog/how-to-build-a-good-personal-agent/zh/24.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">支付：一次性凭证，agent 碰不到卡</p>
+
+### 交互与执行分离
+
+personal agent 必须同时做到「秒回」和「把复杂的事办完」，这两件事在一个同步的 loop 里是矛盾的。解法是把它拆成两层：
+
+- **交互 agent**：用一个低延迟的模型，只负责对话和派发任务，立刻回一句「好，我去办」。
+- **work agent**：从任务队列里取任务，在各自的 sandbox 里异步、并发地执行，把进度和交付状态记下来，办完再通过交互 agent 告诉用户；没必要说的，就不出声。
+
+![交代很多件事，不用等](/images/blog/how-to-build-a-good-personal-agent/zh/25.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">交代很多件事，不用等</p>
+
+![交互与执行分离的架构](/images/blog/how-to-build-a-good-personal-agent/zh/26.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">交互与执行分离的架构</p>
+
+### Runtime：Harness, Sandbox, Filesystem三者分离
+
+过去的 agent 是一个单体执行环境，生命周期等于一次任务。personal agent 要一直在线，所以要把 **agent runtime、执行环境、存储**三者分开：agent 的状态是持久化的（durable execution），执行环境可以按需在云端或本地调度，存储独立于任何一次执行。任何一块挂掉，都不影响它记得你、接着办。
+
+这样拆开，最直接的好处是**成本**。如果给每个用户配一台一直开着的云端电脑，一个月要 10 美元左右；三者分开以后，agent 的状态存在持久化的存储里，执行环境只在真正有活的时候才拉起来，办完就释放，一个用户一个月可以压到 1 美元以下。对一个要一直在线、服务海量用户的产品，这是能不能做的前提。
+
+![agent runtime、执行环境、存储三者分离](/images/blog/how-to-build-a-good-personal-agent/zh/27.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">agent runtime、执行环境、存储三者分离</p>
+
+### Context：围绕人，分层加载
+
+personal agent 管理的是一条永远不结束的对话，所以 context 不能是「把所有历史塞进去」。它应该分层：人设、工具、skills 目录、关于你、相关记忆、正在进行的事、当前对话、任务说明。交互 agent 和 work agent 各取所需。
+
+![分层 context](/images/blog/how-to-build-a-good-personal-agent/zh/28.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">分层 context</p>
+
+### Memory：围绕人和关系的知识图谱
+
+过去的做法是按任务隔离的记忆，加一个关于用户的大文件。personal agent 需要的是一张围绕人和关系的知识图谱：你、你的家人朋友、你正在办的事、你的偏好，彼此连在一起；后台还有一个持续整理记忆的进程，合并、修正、遗忘。
+
+记忆本质上是一个推荐问题：在这一刻，哪些关于你的信息最值得被想起来。
+
+![从按任务隔离的记忆，到围绕人和关系的知识图谱](/images/blog/how-to-build-a-good-personal-agent/zh/29.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">从按任务隔离的记忆，到围绕人和关系的知识图谱</p>
+
+### 主动性：两级触发
+
+主动不能靠让大模型一直盯着，那太贵也太吵。做法是两级触发：
+
+1. **规则快速过滤**：事件（新邮件、新订单、新通知）和定时任务进来，先用便宜的规则判断要不要处理。
+2. **agent 按需判断**：通过过滤的，才交给 agent 去判断：提醒你、问你，还是不出声，并且把进度记下来。
+
+这也是克制在技术上的实现：大部分事件，最后的结论都应该是「不打扰」。
+
+![两级触发：规则过滤，agent 按需判断](/images/blog/how-to-build-a-good-personal-agent/zh/30.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">两级触发：规则过滤，agent 按需判断</p>
+
+### 自我迭代
+
+用户每天都会遇到各种小问题，靠人工一条条排查是跟不上的。做法是让 personal agent 自己有一个上报问题的工具：遇到做不好的事，它把问题和上下文报上来；一个独立的 coding agent 读这些 issue 和运行 trace，去改 harness；改完在历史 trace 上回放验证，通过之后才灰度上线。
+
+![自我迭代：上报问题、coding agent 修改、回放验证、灰度上线](/images/blog/how-to-build-a-good-personal-agent/zh/31.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">自我迭代：上报问题、coding agent 修改、回放验证、灰度上线</p>
+
+### 隐私：画一条清楚的线
+
+agent loop 在云端，最敏感的数据留在手机上的本地执行环境里，比如聊天记录，不越过这条线。云端需要的，是经过用户逐项授权的那部分。这条线画得越清楚，用户敢交出来的就越多。
+
+Muse 的做法可以参考（据 Meta 公开的说明）：
+
+- **独立的审查进程**：一个和 agent 隔离的 Sentinel，检查 agent 的每一个对外动作是否在用户授权范围内，放行、拦截，或者交给用户确认。
+- **凭证不进模型**：账号的 token 和密码存在单独的凭证服务里，按需发给执行环境，模型本身看不到。
+- **敏感动作先问**：发邮件、下单这类动作，先经用户确认。
+- **用户能看、能收回**：每个连接可以选只读还是可写，随时撤销；做过的事有记录可查；也可以让它忘掉记住的信息。
+
+![安全：agent 的每个对外动作，都要先过一道关](/images/blog/how-to-build-a-good-personal-agent/zh/32.webp)
+
+<p style="text-align:center;font-size:0.85em;color:#888;margin-top:-0.5em">安全：agent 的每个对外动作，都要先过一道关</p>
+
+## 结语
+
+1. **定义**：personal agent 是一种生活方式。工具按场景定义，它没有 killer use case，靠一件件小事攒成替代不掉的习惯：任何事，默认先交给它。
+2. **8P 原则**：好的 personal agent 就是做一个人。像人一样出现，像人一样说话，一直在，懂你，先想到，有分寸，能办事，靠得住。
+3. **上限**：智力已经溢出，模型决定下限，context 和闭环决定上限；context 的价值是指数级增长的。
+4. **组织**：上一代的做法做不出 personal agent。负责人最好同时懂模型、工程和产品，团队是效果、工程、模型自己闭环的原子团队。
+5. **产品**：不设计功能，设计环境。给 agent 通用能力，让用法从真实使用里自己长出来；不设计 UX，设计 AX。
+6. **技术**：交互与执行分离，runtime 三者分离，context 分层，memory 做成知识图谱，两级触发，自我迭代，隐私画一条清楚的线。
+
+所以最难的部分不在技术，在产品上的克制和 AI Native 组织：敢于只做环境，并且让一个懂三层的人、一支小而全的团队，把产品、harness 和模型放在一起设计。
+
+**当你不再觉得自己在用一个 AI 产品的时候，它就成了。**
+
+**下一篇预告。** 这是《如何做出好的 Personal Agent 产品》的第一部分，讲的是产品、团队和技术。第二部分讲商业模式和战略：平台税会不会被打下来，软件和硬件谁会成为入口，大公司和创业公司各自怎么赢。
